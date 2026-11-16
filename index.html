@@ -34,13 +34,29 @@
             margin-top: 15px;
             color: #aaa;
         }
+        #bestScoresSection {
+            margin-top: 16px;
+            text-align: center;
+        }
+        #bestScoresSection h3 {
+            margin: 0 0 8px;
+        }
+        #bestScores {
+            margin: 0;
+            padding-left: 24px;
+            text-align: left;
+        }
     </style>
 </head>
 <body>
     <h2>Entrenamiento: Pong vs Pared</h2>
-    <!-- Canvas de 1200x800 según los requerimientos del proyecto -->
-    <canvas id="gameCanvas" width="1200" height="800"></canvas>
+    <!-- Canvas de 1000x600 según los requerimientos del proyecto -->
+    <canvas id="gameCanvas" width="1100" height="700"></canvas>
     <p>Usa las teclas <b>E</b> / <b>D</b> o las <b>Flechas</b> para mover la paleta chaval.</p>
+    <section id="bestScoresSection" hidden aria-live="polite">
+        <h3>Mejores 3 puntajes</h3>
+        <ol id="bestScores"></ol>
+    </section>
 
     <script src="game.js"></script>
 </body>

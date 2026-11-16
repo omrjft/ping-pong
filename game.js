@@ -8,6 +8,7 @@ const ballImage = new Image();
 ballImage.src = "images/catball.png";
 
 const playerName = prompt("¿Cómo te llamas?")?.trim() || "Jugador";
+const bestScoresKey = "pongBestScores";
 
 // Estado del juego
 const paddle = {
@@ -23,7 +24,7 @@ const ball = {
     x: 400,
     y: 225,
     radius: 60,
-    speedX: 50,
+    speedX: 5,
     speedY: 5
 };
 
@@ -80,8 +81,63 @@ function update() {
     }
     // 4. Reinicio si la pelota sale por la izquierda
     if (ball.x < 0) {
+        saveScore();
         resetGame();
     }
+}
+
+function saveScore() {
+    let bestScores = [];
+
+    try {
+        const savedScores = localStorage.getItem(bestScoresKey);
+        const parsedScores = savedScores ? JSON.parse(savedScores) : [];
+        if (Array.isArray(parsedScores)) {
+            bestScores = parsedScores.filter(
+                (entry) =>
+                    entry &&
+                    typeof entry.name === "string" &&
+                    Number.isFinite(entry.score)
+            );
+        }
+    } catch (error) {
+        console.error("No se pudieron leer los mejores puntajes:", error);
+    }
+
+    bestScores.push({
+        name: playerName,
+        score,
+        date: new Date().toISOString()
+    });
+    bestScores.sort((a, b) => b.score - a.score);
+    bestScores = bestScores.slice(0, 3);
+
+    try {
+        localStorage.setItem(bestScoresKey, JSON.stringify(bestScores));
+    } catch (error) {
+        console.error("No se pudieron guardar los mejores puntajes:", error);
+    }
+
+    showBestScores(bestScores);
+}
+
+function showBestScores(bestScores) {
+    const scoresList = document.getElementById("bestScores");
+    const scoresSection = document.getElementById("bestScoresSection");
+    scoresList.replaceChildren();
+
+    bestScores.forEach((entry) => {
+        const item = document.createElement("li");
+        const recordedDate = entry.date ? new Date(entry.date) : null;
+        const dateText =
+            recordedDate && !Number.isNaN(recordedDate.getTime())
+                ? recordedDate.toLocaleString()
+                : "fecha no disponible";
+        item.textContent = `${entry.name}: ${entry.score} puntos — ${dateText}`;
+        scoresList.appendChild(item);
+    });
+
+    scoresSection.hidden = false;
 }
 
 // Función para reiniciar el estado
