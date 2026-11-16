@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pong vs Pared</title>
+    
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #3d2c2c;
+            margin: 0;
+            color: white;   
+            font-family: sans-serif;
+            flex-direction: column;
+        }
+        canvas {
+            background-image: url("images/stars.gif");
+            border: 8px solid #fff;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            animation: cambioBorde 2s infinite;
+        }
+        @keyframes cambioBorde {
+            0%   { border-color: #ff2c2c; }
+            33%  { border-color: #fff345; }
+            66%  { border-color: #31cfff; }
+            100% { border-color: #ff00aa; }
+        }
+        p {
+            margin-top: 15px;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+    <h2>Entrenamiento: Pong vs Pared</h2>
+    <!-- Canvas de 1200x800 según los requerimientos del proyecto -->
+    <canvas id="gameCanvas" width="1200" height="800"></canvas>
+    <p>Usa las teclas <b>E</b> / <b>D</b> o las <b>Flechas</b> para mover la paleta chaval.</p>
+
+    <script src="game.js"></script>
+</body>
+</html>
